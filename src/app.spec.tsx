@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, Mock, vi } from "vitest";
-import { BrowserRouter, useNavigate, useParams } from "react-router-dom";
+import { BrowserRouter, useNavigate, useLocation } from "react-router-dom";
 import { ReactNode } from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -9,6 +9,9 @@ vi.mock("react-router-dom", async () => ({
     "react-router-dom"
   )) as typeof import("react-router-dom")),
   useNavigate: vi.fn(),
+  useLocation: () => ({
+    search: "hello",
+  }),
 }));
 
 describe("Test", () => {
@@ -56,7 +59,8 @@ function Wrapper({ children }: { children: ReactNode }) {
 
 function Two() {
   const navigate = useNavigate();
-
+  const location = useLocation();
+  console.log("location:", location);
   return (
     <button
       onClick={() => {
